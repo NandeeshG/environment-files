@@ -1114,9 +1114,11 @@ function Run_Super(code)
 
         "------------------------------------------------
     elseif l:ext==#"java"
+	"MORE COMMENTS
         if a:code == 45
             :execute "! xdg-open" l:filename
             :call feedkeys("<CR>")
+	    "MORE COMMENTS
         elseif a:code == 90 
             "Open IO
             :call Run_Super_OpenIO()
