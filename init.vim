@@ -1,9 +1,11 @@
 
-" TODO : Add some git plugins, that show branches too
+
 " learn omni functions and ultisnip plugin later, Also multicursor may work try again later
 " Configure webd - pull template, emmet, tagalong, vim-surround, deoplete
 " setup
-" Configure Java checkers too
+" For webd - add a single keypress to save all, and run xdg-open index.html or reload
+" website
+" Configure Java and Python checkers too
 
 "Apr1  - Added template pull commands and Tab movements
 "Apr16 - Added NEW and NEWN commands to make new files by timestamp
@@ -58,8 +60,10 @@
 ":)
 "
 "Aug 23 - Ctrl <F4> opens file with xdg-open, and deoplete completion
-"shortcuts are commented out. Use colo purify etc to change colors. ALSO,
-"added python template function and <F8> keys
+"shortcuts are commented out. Use colo purify etc to change colors.
+"
+"Aug 24 - Added python runners. This will be last entry like this, moving this
+"file to git now
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 call plug#begin('~/.config/nvim/plugged')
@@ -400,7 +404,7 @@ let g:airline_symbols.linenr = ''
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "Startify stuff
-let g:startify_bookmarks = ['~/.config/nvim/init.vim']  "A list of files or directories to bookmark.
+let g:startify_bookmarks = ['~/.vimrc','~/.profile','~/.bashrc','~/.gdbinit','~/.gitconfig','~/.config/nvim/init.vim']  "A list of files or directories to bookmark.
 let g:startify_change_to_dir = 1
 let g:startify_update_oldfiles = 0  "Update startify on-the-fly, not only on exit
 let g:startify_custom_header = 'startify#center(startify#fortune#cowsay())'
@@ -667,12 +671,6 @@ let g:rainbow_active = 1 "set to 0 if you want to enable it later via :RainbowTo
 "Ctrl F6 -> Run soln.cpp and brute.cpp on input.txt, and then checker finds the difference and puts in result.txt   (basically, do not run input generator. )
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-function Template_Python()
-    :0
-    :r ~/Documents/cp/nglib/PYTHON_TEMPLATE.py
-    :exe "normal ggddG"
-endfunction
-
 function Template_Cpp()
     :0  "Not deleting anything in this command to avoid accidental deletion
     :r ~/Documents/cp/nglib/TEMPLATE.cpp
@@ -993,16 +991,13 @@ function Run_Super(code)
             :call Template_Cpp()
 
         elseif a:code == 45
-            "OPEN IN TEXT EDITOR
             :execute "! xdg-open" l:filename
             :call feedkeys("<CR>")
 
         elseif a:code == 70
-            "BUILD ONLY
             :execute "! g++ -O2 -Wall -Wextra -pedantic-errors -std=c++17" l:filename
 
         elseif a:code == 80
-            "TERMINAL SPLIT
             "Build cpp file
             :execute "silent ! g++ -O2 -Wall -Wextra -pedantic-errors -std=c++17" l:filename
             "SplitTerminal on same screen
@@ -1091,10 +1086,8 @@ function Run_Super(code)
             :execute "normal dGdd"
             :call Template_Python()
         elseif a:code == 45
-	    "THIS IS A COMMENT
             :execute "! xdg-open" l:filename
             :call feedkeys("<CR>")
-	    "THIS IS A COMMENT
         elseif a:code == 80
             "Quick execution, no input
             :wincmd t
@@ -1113,12 +1106,11 @@ function Run_Super(code)
         endif
 
         "------------------------------------------------
+
     elseif l:ext==#"java"
-	"MORE COMMENTS
         if a:code == 45
             :execute "! xdg-open" l:filename
             :call feedkeys("<CR>")
-	    "MORE COMMENTS
         elseif a:code == 90 
             "Open IO
             :call Run_Super_OpenIO()
