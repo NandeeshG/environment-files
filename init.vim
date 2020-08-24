@@ -1079,10 +1079,13 @@ function Run_Super(code)
         "------------------------------------------------
 
     elseif l:ext==#"java"
+	"OTHER COMMENTS
         if a:code == 45
             :execute "! xdg-open" l:filename
             :call feedkeys("<CR>")
+	    "OTHER COMMENTS
         elseif a:code == 90 
+	    "OTHER COMMENTS
             "Open IO
             :call Run_Super_OpenIO()
             : ! javac soln.java && java soln < input.txt > output.txt
