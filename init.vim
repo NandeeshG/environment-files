@@ -1091,8 +1091,10 @@ function Run_Super(code)
             :execute "normal dGdd"
             :call Template_Python()
         elseif a:code == 45
+	    "THIS IS A COMMENT
             :execute "! xdg-open" l:filename
             :call feedkeys("<CR>")
+	    "THIS IS A COMMENT
         elseif a:code == 80
             "Quick execution, no input
             :wincmd t
