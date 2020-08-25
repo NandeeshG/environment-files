@@ -930,6 +930,7 @@ function Run_Super(code)
 
     let l:ext = expand('%:e')
     let l:filename = expand('%')
+    let l:onlyname = expand('%:t:r')
 
     "------------------------------------------------
     if l:ext==#"txt"
@@ -1124,7 +1125,9 @@ function Run_Super(code)
         elseif a:code == 90 
             "Open IO
             :call Run_Super_OpenIO()
-            : ! javac soln.java && java soln < input.txt > output.txt
+            "This doesn't work if input and output not already created
+            :execute "! javac " l:filename
+            :execute "! java " l:onlyname "< input.txt > output.txt"
         endif
         "------------------------------------------------
     endif
