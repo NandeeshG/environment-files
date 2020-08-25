@@ -64,6 +64,8 @@
 "
 "Aug 24 - Added python runners. This will be last entry like this, moving this
 "file to git now
+"
+"Aug 25 - added python pylint support
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 call plug#begin('~/.config/nvim/plugged')
@@ -259,6 +261,14 @@ let g:syntastic_html_checkers = ['validator']
 "    "eslint --init to start
 let g:syntastic_javascript_checkers = ['eslint']
 
+"STEPS TO INSTALL - sudo apt install pylint3 pylint 
+"Then go to ~/ directory and run pylint --generate-rcfile > ~/.pylintrc
+"in that rcfile you can set your desired options
+let g:syntastic_python_pylint_exe = 'python3 -m pylint'
+let g:syntastic_python_checkers = ['pylint']
+
+"To debug :mes
+"let g:syntastic_debug = 1
 
 "the following function will make the error window smaller if fewer than 10 errors are found: >
 function! SyntasticCheckHook(errors)
@@ -404,7 +414,7 @@ let g:airline_symbols.linenr = ''
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "Startify stuff
-let g:startify_bookmarks = ['~/.vimrc','~/.profile','~/.bashrc','~/.gdbinit','~/.gitconfig','~/.config/nvim/init.vim']  "A list of files or directories to bookmark.
+let g:startify_bookmarks = ['~/.vimrc','~/.profile','~/.bashrc','~/.gdbinit','~/.gitconfig','~/.pylintrc','~/.config/nvim/init.vim']  "A list of files or directories to bookmark.
 let g:startify_change_to_dir = 1
 let g:startify_update_oldfiles = 0  "Update startify on-the-fly, not only on exit
 let g:startify_custom_header = 'startify#center(startify#fortune#cowsay())'
