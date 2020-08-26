@@ -805,7 +805,7 @@ command TTerm : tabnew | terminal
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-"WEB DEVELOPMENT BABY
+"TEMPLATES
 
 function Template_Html()
     :0  "Not deleting anything in this command to avoid accidental deletion
@@ -825,20 +825,19 @@ function Template_Css()
     :exe "normal ggddG"
 endfunction
 
-command Htmltemplate :exec Template_Html()
-command Jstemplate :exec Template_Javascript()
-command Csstemplate :exec Template_Css()
+function Template_Java()
+    :0
+    :r ~/Documents/cp/nglib/JAVA_TEMPLATE.java 
+    :exe "normal ggddG"
+endfunction
+
+function Template_Python()
+    :0
+    :r ~/Documents/cp/nglib/PYTHON_TEMPLATE.py
+    :exe "normal ggddG"
+endfunction
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-"APP Development with Flutter and Dart
-
-"let g:dart_html_in_string=v:true
-"let g:dart_style_guide = 2
-"let g:dart_format_on_save = 1
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " SuperVIM
 
@@ -1119,15 +1118,34 @@ function Run_Super(code)
         "------------------------------------------------
 
     elseif l:ext==#"java"
-        if a:code == 45
+        if a:code == 40
+            :0
+            :execute "normal dGdd"
+            :call Template_Java()
+        elseif a:code == 45
             :execute "! xdg-open" l:filename
             :call feedkeys("<CR>")
+        elseif a:code == 70
+            :execute "! javac" l:filename
+        elseif a:code == 80
+            "Quick execution, no input
+            :wincmd t
+            :execute "! javac " l:filename
+            :execute "! java " l:onlyname 
+        elseif a:code == 85
+            "FULL TERMINAL
+            "SplitTerminal on same screen
+            :wincmd t
+            :belowright split | terminal
+            :call jobsend(b:terminal_job_id, "javac ".l:filename."\n")
+            :call feedkeys("a")
+            :call jobsend(b:terminal_job_id, "java ".l:onlyname."\n")
         elseif a:code == 90 
             "Open IO
             :call Run_Super_OpenIO()
             "This doesn't work if input and output not already created
-            :execute "! javac " l:filename
-            :execute "! java " l:onlyname "< input.txt > output.txt"
+            :execute "silent ! javac " l:filename
+            :execute "silent ! java " l:onlyname "< input.txt > output.txt"
         endif
         "------------------------------------------------
     endif
