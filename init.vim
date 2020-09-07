@@ -206,10 +206,22 @@ set background=dark  "Many colorschemes automatically change, namely gruvbox, lu
 
 let g:purify_bold = 1        
 let g:purify_italic = 1      
-let g:purify_underline = 1   
+let g:purify_underline = 1
 let g:purify_undercurl = 1   
 let g:purify_inverse = 1     
 colorscheme purify
+hi CursorLine guifg=NONE ctermfg=NONE guibg=#2b2826 ctermbg=237 gui=NONE cterm=NONE
+
+"This function helps in checking value of a highlight group
+function! ReturnHighlightTerm(group, term)
+   " Store output of group to variable
+   let output = execute('hi ' . a:group)
+
+   " Find the term we're looking for
+   return matchstr(output, a:term.'=\zs\S*')
+endfunction
+"let b = ReturnHighlightTerm('StatusLine', 'ctermbg')
+
 
 let g:jellybeans_use_term_italics = 1
 "colorscheme jellybeans
@@ -366,6 +378,7 @@ let g:airline#extensions#tabline#fnamemod = ':t:r'
 let g:airline#extensions#tabline#overflow_marker = '…'
 let g:airline#extensions#tabline#show_close_button = 0
 let g:airline#extensions#tabline#show_tab_nr = 0
+
 "Check :help airline-tabline
 let g:airline#extensions#tabline#buffer_idx_mode = 1
 nmap <leader>1 <Plug>AirlineSelectTab1
