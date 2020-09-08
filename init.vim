@@ -210,7 +210,7 @@ let g:purify_underline = 1
 let g:purify_undercurl = 1   
 let g:purify_inverse = 1     
 colorscheme purify
-hi CursorLine guifg=NONE ctermfg=NONE guibg=#2b2826 ctermbg=237 gui=NONE cterm=NONE
+hi CursorLine guifg=NONE ctermfg=NONE guibg=#1a1a1a ctermbg=237 gui=NONE cterm=NONE
 
 "This function helps in checking value of a highlight group
 function! ReturnHighlightTerm(group, term)
@@ -947,9 +947,11 @@ function Run_Super(code)
     "------------------------------------------------
     if l:ext==#"txt"
         if a:code == 45
+            "Open in text editor
             :execute "! xdg-open" l:filename
             :call feedkeys("<CR>")
         endif
+
     elseif l:ext==#"js"
         if a:code == 40
             :0
@@ -998,6 +1000,7 @@ function Run_Super(code)
         
     elseif l:ext==#"cpp"
         if a:code == 40
+            "Pull template
             "DO THIS LATER, Ask user to save or not, use SavewithDT functions
             ":echo "Save current file before loading template? (y/n)"
             "let l:char = s:getchar()
@@ -1014,13 +1017,30 @@ function Run_Super(code)
             :call Template_Cpp()
 
         elseif a:code == 45
+            "Open with text editor
             :execute "! xdg-open" l:filename
             :call feedkeys("<CR>")
 
         elseif a:code == 70
+            "Only compile 
             :execute "! g++ -O2 -Wall -Wextra -pedantic-errors -std=c++17" l:filename
 
+        elseif a:code == 75
+            "Debugger in newTab
+            :tabnew | terminal
+            :call jobsend(b:terminal_job_id, "g++ -g -Og -Wall -Wextra -pedantic-errors -std=c++17 ".l:filename."\n")
+            :call chansend(b:terminal_job_id, "gdb ./a.out -tui")
+            :call feedkeys("a")
+            "This above line to go to last input box of terminal
+
         elseif a:code == 80
+            "Run only output quick execution
+            :wincmd t
+            :execute "silent ! g++ -O2 -Wall -Wextra -pedantic-errors -std=c++17" l:filename
+            :execute "! ./a.out "
+
+        elseif a:code == 85
+            "Run with Split terminal
             "Build cpp file
             :execute "silent ! g++ -O2 -Wall -Wextra -pedantic-errors -std=c++17" l:filename
             "SplitTerminal on same screen
@@ -1029,15 +1049,8 @@ function Run_Super(code)
             :call jobsend(b:terminal_job_id, "./a.out \n")
             :call feedkeys("a")
 
-        elseif a:code == 85
-            "Debugger in newTab
-            :tabnew | terminal
-            :call jobsend(b:terminal_job_id, "g++ -g -Og -Wall -Wextra -pedantic-errors -std=c++17 ".l:filename."\n")
-            :call chansend(b:terminal_job_id, "gdb ./a.out -tui")
-            :call feedkeys("a")
-            "This above line to go to last input box of terminal
-
         elseif a:code == 90
+            "IP OP Run 0.2sec
             "Build cpp file
             :execute "silent ! g++ -O2 -Wall -Wextra -pedantic-errors -std=c++17" l:filename
             :call Run_Super_OpenIO()
@@ -1045,6 +1058,7 @@ function Run_Super(code)
             :silent ! ./a.out < input.txt > output.txt & sleep 0.2s && kill $(jobs -p)
 
         elseif a:code == 95
+            "IP OP Run 2sec
             "Build cpp file
             :execute "silent ! g++ -O2 -Wall -Wextra -pedantic-errors -std=c++17" l:filename
             :call Run_Super_OpenIO()
@@ -1055,7 +1069,9 @@ function Run_Super(code)
         endif
 
     elseif l:ext==#"c"
+        "Match this with cpp later !!
         if a:code == 45
+            "Open in text editor
             :execute "! xdg-open" l:filename
             :call feedkeys("<CR>")
         elseif a:code == 80
@@ -1094,6 +1110,7 @@ function Run_Super(code)
 
     elseif l:ext==#"py"
         if a:code == 40
+            "Pull template
             "DO THIS LATER, Ask user to save or not, use SavewithDT functions
             ":echo "Save current file before loading template? (y/n)"
             "let l:char = s:getchar()
@@ -1109,6 +1126,7 @@ function Run_Super(code)
             :execute "normal dGdd"
             :call Template_Python()
         elseif a:code == 45
+            "Open in text editor
             :execute "! xdg-open" l:filename
             :call feedkeys("<CR>")
         elseif a:code == 80
@@ -1116,7 +1134,6 @@ function Run_Super(code)
             :wincmd t
             :execute "! python3 " l:filename
         elseif a:code == 85
-            "FULL TERMINAL
             "SplitTerminal on same screen
             :wincmd t
             :belowright split | terminal
@@ -1132,13 +1149,16 @@ function Run_Super(code)
 
     elseif l:ext==#"java"
         if a:code == 40
+            "Pull template
             :0
             :execute "normal dGdd"
             :call Template_Java()
         elseif a:code == 45
+            "Open in text editor
             :execute "! xdg-open" l:filename
             :call feedkeys("<CR>")
         elseif a:code == 70
+            "Only compile
             :execute "! javac" l:filename
         elseif a:code == 80
             "Quick execution, no input
@@ -1146,7 +1166,6 @@ function Run_Super(code)
             :execute "! javac " l:filename
             :execute "! java " l:onlyname 
         elseif a:code == 85
-            "FULL TERMINAL
             "SplitTerminal on same screen
             :wincmd t
             :belowright split | terminal
