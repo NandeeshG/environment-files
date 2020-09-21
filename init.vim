@@ -67,7 +67,8 @@
 "
 "Aug 25 - added python pylint support
 "
-"Sep 21 - Added mouse=a and notermguicolors and ternJS completion
+"Sep 21 - Added mouse=a and notermguicolors and ternJS completion and JS
+"<F8>,ctr<F8> support
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 call plug#begin('~/.config/nvim/plugged')
@@ -198,9 +199,10 @@ call deoplete#custom#var('around', {
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "Tern JS
+"Always copy .tern-project file to :pwd of file
 
-" Set bin if you have many instalations
-"let g:deoplete#sources#ternjs#tern_bin = '/path/to/tern_bin'
+""Set bin if you have many instalations
+"let g:deoplete#sources#ternjs#tern_bin = '/usr/local/bin/tern'
 "let g:deoplete#sources#ternjs#timeout = 1
 
 " Whether to include the types of the completions in the result data. Default: 0
@@ -230,7 +232,7 @@ let g:deoplete#sources#ternjs#case_insensitive = 1
 let g:deoplete#sources#ternjs#guess = 1
 
 " Determines whether the result set will be sorted. Default: 1
-let g:deoplete#sources#ternjs#sort = 0
+let g:deoplete#sources#ternjs#sort = 1
 
 " When disabled, only the text before the given position is considered part of 
 " the word. When enabled (the default), the whole variable name that the cursor
@@ -239,7 +241,7 @@ let g:deoplete#sources#ternjs#expand_word_forward = 0
 
 " Whether to ignore the properties of Object.prototype unless they have been 
 " spelled out by at least two characters. Default: 1
-let g:deoplete#sources#ternjs#omit_object_prototype = 0
+let g:deoplete#sources#ternjs#omit_object_prototype = 1
 
 " Whether to include JavaScript keywords when completing something that is not 
 " a property. Default: 0
@@ -1028,10 +1030,25 @@ function Run_Super(code)
         elseif a:code == 45
             :execute "! xdg-open" l:filename
             :call feedkeys("<CR>")
+
+        elseif a:code == 80
+            "Run only output quick execution
+            :wincmd t
+            :execute "! node" l:filename
+
+        elseif a:code == 85
+            "SplitTerminal on same screen
+            :wincmd t
+            :belowright split | terminal
+            :call jobsend(b:terminal_job_id, "node ".l:filename."\n")
+            :call feedkeys("a")
+        
         elseif a:code == 90
+            "Run input.txt output.txt
             :call Run_Super_OpenIO()
             :execute "! node" l:filename "< input.txt > output.txt"
         elseif a:code == 95
+            "Run live server
             :wincmd t
             :$tabnew | terminal
             :call jobsend(b:terminal_job_id, "live-server\n")
