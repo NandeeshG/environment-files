@@ -1,4 +1,3 @@
-#set -x
 
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
@@ -118,8 +117,21 @@ if ! shopt -oq posix; then
   fi
 fi
 
-# for conda speed up
-alias anaconda='source conda.bashrc'
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/home/nandeesh/anaconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/home/nandeesh/anaconda3/etc/profile.d/conda.sh" ]; then
+        . "/home/nandeesh/anaconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/home/nandeesh/anaconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+
 
 # MY OWN ADDITIONS ------>
 export EDITOR=nvim
@@ -133,6 +145,3 @@ alias gtinit='cd ~/.config/nvim/'
 alias gtnvim='cd ~/.config/nvim/'
 alias gthome='cd ~/'
 
-#WHENEVER YOU MAKE A CHANGE HERE, ALSO UPDATE THAT IN CONDA.BASHRC
-
-#set +x
