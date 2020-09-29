@@ -1,4 +1,5 @@
 
+"TODO : Try language servers please
 
 " learn omni functions and ultisnip plugin later, Also multicursor may work try again later
 " Configure webd - pull template, emmet, tagalong, vim-surround, deoplete
@@ -69,6 +70,8 @@
 "
 "Sep 21 - Added mouse=a and notermguicolors and ternJS completion and JS
 "<F8>,ctr<F8> support
+"
+"Sep 29 - Added Java autocompletion.
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 call plug#begin('~/.config/nvim/plugged')
@@ -81,12 +84,19 @@ call plug#begin('~/.config/nvim/plugged')
         Plug 'roxma/nvim-yarp'
         Plug 'roxma/vim-hug-neovim-rpc'
     endif
+
+    "For python
     Plug 'deoplete-plugins/deoplete-jedi'
     "For c++
     Plug 'Shougo/deoplete-clangx'
-
     "For JavaScript
     Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
+    "For Java 
+    Plug 'artur-shaik/vim-javacomplete2'
+
+    ""Syntax highlight file based completion
+    "Plug 'shougo/neco-syntax' 
+    "This neco thing didn't work
 
 
     "Themes
@@ -198,6 +208,14 @@ call deoplete#custom#var('around', {
 "check :help deoplete-sources
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"Java Completion
+
+"before this, run sudo apt install maven
+autocmd FileType java setlocal omnifunc=javacomplete#Complete
+let g:JavaComplete_EnableDefaultMappings = 0
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "Tern JS
 "Always copy .tern-project file to :pwd of file
 
@@ -229,7 +247,7 @@ let g:deoplete#sources#ternjs#case_insensitive = 1
 " When completing a property and no completions are found, Tern will use some 
 " heuristics to try and return some properties anyway. Set this to 0 to 
 " turn that off. Default: 1
-let g:deoplete#sources#ternjs#guess = 1
+let g:deoplete#sources#ternjs#guess = 0
 
 " Determines whether the result set will be sorted. Default: 1
 let g:deoplete#sources#ternjs#sort = 1
@@ -245,7 +263,7 @@ let g:deoplete#sources#ternjs#omit_object_prototype = 1
 
 " Whether to include JavaScript keywords when completing something that is not 
 " a property. Default: 0
-let g:deoplete#sources#ternjs#include_keywords = 1
+let g:deoplete#sources#ternjs#include_keywords = 0
 
 " If completions should be returned when inside a literal. Default: 1
 let g:deoplete#sources#ternjs#in_literal = 0
@@ -258,6 +276,12 @@ let g:deoplete#sources#ternjs#filetypes = [
                 \ 'vue',
                 \ '...'
                 \ ]
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""Neco-Syntax
+"
+"let g:necosyntax#min_keyword_length = 2
+
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -339,9 +363,17 @@ let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 ""validator was preinstalled in my laptop
 let g:syntastic_html_checkers = ['validator']
+
 ""Install NodeJS, npm and then ESlint globally. Then do
 "    "eslint --init to start
+
+"Because eslint wasn't working with react
+"This fix doesn't work
+"let g:syntastic_javascript_eslint_exec = '/usr/local/bin/eslint'
+
 let g:syntastic_javascript_checkers = ['eslint']
+let g:syntastic_typescript_checkers = ['eslint']
+
 
 "STEPS TO INSTALL - sudo apt install pylint3 pylint 
 "Then go to ~/ directory and run pylint --generate-rcfile > ~/.pylintrc
