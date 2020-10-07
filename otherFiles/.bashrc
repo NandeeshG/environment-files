@@ -1,4 +1,4 @@
-#set -x
+# set -x
 
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
@@ -133,6 +133,12 @@ alias gtinit='cd ~/.config/nvim/'
 alias gtnvim='cd ~/.config/nvim/'
 alias gthome='cd ~/'
 
+# remove later
+alias gtnode='cd ~/Documents/learn/node'
+alias gtreact='cd ~/Documents/learn/react'
+alias gtvue='cd ~/Documents/learn/vue'
+# ------------
+
 #WHENEVER YOU MAKE A CHANGE HERE, ALSO UPDATE THAT IN CONDA.BASHRC
 
-#set +x
+# set +x
