@@ -139,6 +139,10 @@ alias gtreact='cd ~/Documents/learn/react'
 alias gtvue='cd ~/Documents/learn/vue'
 # ------------
 
+# for vm
+alias myVM='ssh -i ~/Documents/azureVM/myVM-kp.pem azureuser@codang.eastus.cloudapp.azure.com'
+# ------------
+
 #WHENEVER YOU MAKE A CHANGE HERE, ALSO UPDATE THAT IN CONDA.BASHRC
 
 # set +x
