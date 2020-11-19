@@ -142,6 +142,10 @@ alias gtvue='cd ~/Documents/learn/vue'
 # for vm
 alias myVM='ssh -i ~/Documents/azureVM/myVM-kp.pem azureuser@codang.eastus.cloudapp.azure.com'
 # ------------
+# for psql
+alias PSQL='sudo -u postgres psql'
+# ------------
+
 
 #WHENEVER YOU MAKE A CHANGE HERE, ALSO UPDATE THAT IN CONDA.BASHRC
 
