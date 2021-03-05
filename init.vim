@@ -1172,7 +1172,8 @@ function Run_Super(code)
             :execute "silent ! g++ -O2 -Wall -Wextra -pedantic-errors -std=c++17" l:filename
             :call Run_Super_OpenIO()
             "0.2sec run noDBG
-            :silent ! ./a.out < input.txt > output.txt & sleep 0.2s && kill $(jobs -p)
+            ":silent ! ./a.out < input.txt > output.txt 2>&1 & sleep 0.2s && kill $(jobs -p)
+            :silent ! /usr/bin/time -a -f "----------\n\%Uuser \%Ssystem \%Eelapsed \n\%PCPU (\%Xtext+\%Ddata \%Mmax)k \n\%Iinputs+\%Ooutputs \n(\%Fmajor+\%Rminor)pagefaults \%Wswaps \n----------\n" -o output.txt ./a.out < input.txt > output.txt 2>&1 & sleep 0.2s && kill $(jobs -p)
 
         elseif a:code == 95
             "IP OP Run 2sec
@@ -1180,9 +1181,9 @@ function Run_Super(code)
             :execute "silent ! g++ -O2 -Wall -Wextra -pedantic-errors -std=c++17" l:filename
             :call Run_Super_OpenIO()
             "2sec run with DBG
-            :silent ! ./a.out 1 < input.txt > output.txt & sleep 2s && kill $(jobs -p)
-
-            "------------------------------------------------
+            ":silent ! ./a.out 1 < input.txt > output.txt 2>&1 & sleep 2s && kill $(jobs -p)
+             :silent ! /usr/bin/time -av -o output.txt ./a.out 1 < input.txt > output.txt 2>&1 & sleep 2s && kill $(jobs -p)
+             "------------------------------------------------
         endif
 
     elseif l:ext==#"c"
