@@ -1173,7 +1173,7 @@ function Run_Super(code)
             :call Run_Super_OpenIO()
             "0.2sec run noDBG
             ":silent ! ./a.out < input.txt > output.txt 2>&1 & sleep 0.2s && kill $(jobs -p)
-            :silent ! /usr/bin/time -a -f "----------\n\%Uuser \%Ssystem \%Eelapsed \n\%PCPU (\%Xtext+\%Ddata \%Mmax)k \n\%Iinputs+\%Ooutputs \n(\%Fmajor+\%Rminor)pagefaults \%Wswaps \n----------\n" -o output.txt ./a.out < input.txt > output.txt 2>&1 & sleep 0.2s && kill $(jobs -p)
+            :silent ! /usr/bin/time -a -f "\n\n----------\n\%Uuser \%Ssystem \%Eelapsed \n\%PCPU (\%Xtext+\%Ddata \%Mmax)k \n\%Iinputs+\%Ooutputs \n(\%Fmajor+\%Rminor)pagefaults \%Wswaps \n----------\n" -o output.txt ./a.out < input.txt > output.txt 2>&1 & sleep 0.2s && kill $(jobs -p)
 
         elseif a:code == 95
             "IP OP Run 2sec
