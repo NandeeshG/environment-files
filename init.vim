@@ -86,13 +86,13 @@ call plug#begin('~/.config/nvim/plugged')
     endif
 
     "For python
-    Plug 'deoplete-plugins/deoplete-jedi'
+    "Plug 'deoplete-plugins/deoplete-jedi'
     "For c++
     Plug 'Shougo/deoplete-clangx'
     "For JavaScript
-    Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
+    "Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
     "For Java 
-    Plug 'artur-shaik/vim-javacomplete2'
+    "Plug 'artur-shaik/vim-javacomplete2'
 
     ""Syntax highlight file based completion
     "Plug 'shougo/neco-syntax' 
@@ -210,9 +210,9 @@ call deoplete#custom#var('around', {
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "Java Completion
 
-"before this, run sudo apt install maven
-autocmd FileType java setlocal omnifunc=javacomplete#Complete
-let g:JavaComplete_EnableDefaultMappings = 0
+""before this, run sudo apt install maven
+"autocmd FileType java setlocal omnifunc=javacomplete#Complete
+"let g:JavaComplete_EnableDefaultMappings = 0
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -409,9 +409,9 @@ augroup END
 "will use a mix of tabs and spaces, but typing <Tab> and <BS> will
 "behave like a tab appears every 4 (or 3) characters.
 set tabstop=8   "number of visual spaces per tab
-set softtabstop=4   "no of spaces in tab when editing
-set shiftwidth=4
-set noexpandtab
+set softtabstop=2   "no of spaces in tab when editing
+set shiftwidth=2
+set expandtab
 
 """"GRAPHICAL
 set number
