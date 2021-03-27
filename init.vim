@@ -1,4 +1,9 @@
 
+" Need python3 in path. pynvim installed via pip. Powerline fonts installed
+" and selected in terminal. nodeJs optional. Use :checkhealth in nvim. Use
+" :help provider-python if python giving issues
+
+
 "TODO : Try language servers please
 
 " learn omni functions and ultisnip plugin later, Also multicursor may work try again later
