@@ -1179,9 +1179,37 @@ function Run_Super(code)
             "Build cpp file
             :execute "silent ! g++ -O2 -Wall -Wextra -pedantic-errors -std=c++17" l:filename
             :call Run_Super_OpenIO()
+
             "0.2sec run noDBG
-            :silent ! ./a.out < input.txt > output.txt 2>&1 & sleep 0.2s && kill $(jobs -p)
-            ":silent ! /usr/bin/time -a -f "\n\n----------\n\%Uuser \%Ssystem \%Eelapsed \n\%PCPU (\%Xtext+\%Ddata \%Mmax)k \n\%Iinputs+\%Ooutputs \n(\%Fmajor+\%Rminor)pagefaults \%Wswaps \n----------\n" -o output.txt ./a.out < input.txt > output.txt 2>&1 & sleep 0.2s && kill $(jobs -p)
+            "OLD run command
+            ":silent ! ./a.out < input.txt > output.txt 2>&1 & sleep 0.2s && kill $(jobs -p)
+
+            " Trying timing (BETTER IS TO HAVE TIMING IN PROGRAM ITSELF)
+            ":silent ! /usr/bin/time -a -f 
+            ""\n\n----------\n\%Uuser \%Ssystem \%Eelapsed \n\%PCPU (\%Xtext+\%Ddata \%Mmax)k \n\%Iinputs+\%Ooutputs \n(\%Fmajor+\%Rminor)pagefaults \%Wswaps \n----------\n" -o output.txt ./a.out < input.txt > output.txt 2>&1 & sleep 0.2s && kill $(jobs -p)
+            "
+            
+            " 1.simple input output with file.
+            " 2.stderr into output.txt (outputs using cerr<<)
+            " 3.shell errors into output.txt (like core dumped msgs)
+            " 4.kill after some seconds
+            "
+            " BELOW COMMAND WORKS ONLY FOR INTERACTIVE TERMINAL - MORE TESTING NEEDED
+            ":! { ./a.out < input.txt > output.txt 2>&1 & export pid=$! ; } 2>> output.txt && sleep 0.2s  && echo 'pid=$pid' && kill $pid       
+            "
+            " BELOW TWO COMMANDS WORKS FOR NON INTERACTIVE TERMINAL - MORE TESTING NEEDED
+
+            " command 1. THIS DOESN'T APPEND FLOATING POINT ERROR CORE DUMPED MSGS TO
+            " OUTPUT.TXT BECAUSE ECHO and 2>>output.txt don't work well
+            " together
+            " : ! { ./a.out < input.txt > output.txt 2>&1 & echo "Started pid $(jobs -p)" ; } & sleep 0.5s && { [[ -z "$(jobs -p)" ]] || { echo "Killing $(jobs -p)" && kill "$(jobs -p)" && echo "Killed." ; } ; } && echo "Stopped."
+
+            " command 2. THIS ONE WORKS SILENTLY, AND PRINT KILLED PROC ON OUTPUT WHEN
+            " TLE OCCURS (ALSO PRINTS EXCEPTION HANDLING and SHELL ERRORS BOTH
+            " TO OUTPUT WHEN THEY OCCUR)
+            : ! { ./a.out < input.txt > output.txt 2>&1 ; } 2>> output.txt & sleep 0.5s && { [[ -z "$(jobs -p)" ]] || { kill "$(jobs -p)" && echo "KILLED PROC" >> output.txt ; } ; }
+
+
 
         elseif a:code == 95
             "IP OP Run 2sec
