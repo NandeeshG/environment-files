@@ -801,6 +801,12 @@ let g:rainbow_active = 1 "set to 0 if you want to enable it later via :RainbowTo
 "Ctrl F6 -> Run soln.cpp and brute.cpp on input.txt, and then checker finds the difference and puts in result.txt   (basically, do not run input generator. )
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+function Template_Bare()
+    :0  "Not deleting anything in this command to avoid accidental deletion
+    :r ~/Documents/cp/nglib/TEMPLATE_BARE.cpp
+    :exe "normal ggddG"
+endfunction
+
 function Template_Cpp()
     :0  "Not deleting anything in this command to avoid accidental deletion
     :r ~/Documents/cp/nglib/TEMPLATE.cpp
@@ -1146,6 +1152,11 @@ function Run_Super(code)
             :execute "! xdg-open" l:filename
             :call feedkeys("<CR>")
 
+        elseif a:code == 50
+            :0
+            :execute "normal dGdd"
+            :call Template_Bare()
+
         elseif a:code == 70
             "Only compile 
             :execute "! g++ -O2 -Wall -Wextra -pedantic-errors -std=c++17" l:filename
@@ -1207,7 +1218,7 @@ function Run_Super(code)
             " command 2. THIS ONE WORKS SILENTLY, AND PRINT KILLED PROC ON OUTPUT WHEN
             " TLE OCCURS (ALSO PRINTS EXCEPTION HANDLING and SHELL ERRORS BOTH
             " TO OUTPUT WHEN THEY OCCUR)
-            : ! { ./a.out < input.txt > output.txt 2>&1 ; } 2>> output.txt & sleep 0.5s && { [[ -z "$(jobs -p)" ]] || { kill "$(jobs -p)" && echo "KILLED PROC" >> output.txt ; } ; }
+            : silent ! { ./a.out < input.txt > output.txt 2>&1 ; } 2>> output.txt & sleep 0.3s && { [[ -z "$(jobs -p)" ]] || { kill "$(jobs -p)" && echo "KILLED PROC" >> output.txt ; } ; }
 
 
 
@@ -1217,9 +1228,10 @@ function Run_Super(code)
             :execute "silent ! g++ -O2 -Wall -Wextra -pedantic-errors -std=c++17" l:filename
             :call Run_Super_OpenIO()
             "2sec run with DBG
-            :silent ! ./a.out 1 < input.txt > output.txt 2>&1 & sleep 2s && kill $(jobs -p)
+            ":silent ! ./a.out 1 < input.txt > output.txt 2>&1 & sleep 2s && kill $(jobs -p)
              ":silent ! /usr/bin/time -av -o output.txt ./a.out 1 < input.txt > output.txt 2>&1 & sleep 2s && kill $(jobs -p)
              "------------------------------------------------
+            : silent ! { ./a.out 1 < input.txt > output.txt 2>&1 ; } 2>> output.txt & sleep 1.5s && { [[ -z "$(jobs -p)" ]] || { kill "$(jobs -p)" && echo "KILLED PROC" >> output.txt ; } ; }
         endif
 
     elseif l:ext==#"c"
