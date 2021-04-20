@@ -1218,7 +1218,12 @@ function Run_Super(code)
             " command 2. THIS ONE WORKS SILENTLY, AND PRINT KILLED PROC ON OUTPUT WHEN
             " TLE OCCURS (ALSO PRINTS EXCEPTION HANDLING and SHELL ERRORS BOTH
             " TO OUTPUT WHEN THEY OCCUR)
-            : silent ! { ./a.out < input.txt > output.txt 2>&1 ; } 2>> output.txt & sleep 0.3s && { [[ -z "$(jobs -p)" ]] || { kill "$(jobs -p)" && echo "KILLED PROC" >> output.txt ; } ; }
+            " BELOW ONE DOESN'T KILL PROCESS EVERY TIME
+            " : silent ! { ./a.out < input.txt > output.txt 2>&1 ; } 2>> output.txt & sleep 0.3s && { [[ -z "$(jobs -p)" ]] || { kill "$(jobs -p)" && echo "KILLED PROC" >> output.txt ; } ; }
+
+            " THIS IS THE FINAL ONE IG
+            " ACTUALLY JUST NEEDED TO PREPEND a \ in the command at line 1209
+            : silent ! { ./a.out < input.txt > output.txt 2>&1 & export pid=$\! && sleep 0.3s && echo "pid=$pid" && { [[ -z "$pid" ]] || { kill $pid && echo "Killed Process" >> output.txt ; } ; } ; } 2>> output.txt 
 
 
 
@@ -1231,7 +1236,9 @@ function Run_Super(code)
             ":silent ! ./a.out 1 < input.txt > output.txt 2>&1 & sleep 2s && kill $(jobs -p)
              ":silent ! /usr/bin/time -av -o output.txt ./a.out 1 < input.txt > output.txt 2>&1 & sleep 2s && kill $(jobs -p)
              "------------------------------------------------
-            : silent ! { ./a.out 1 < input.txt > output.txt 2>&1 ; } 2>> output.txt & sleep 1.5s && { [[ -z "$(jobs -p)" ]] || { kill "$(jobs -p)" && echo "KILLED PROC" >> output.txt ; } ; }
+             " See a:code==90 if block to see how this command came
+            : silent ! { ./a.out 1 < input.txt > output.txt 2>&1 & export pid=$\! && sleep 1.3s && echo "pid=$pid" && { [[ -z "$pid" ]] || { kill $pid && echo "Killed Process" >> output.txt ; } ; } ; } 2>> output.txt 
+
         endif
 
     elseif l:ext==#"c"
