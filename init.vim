@@ -1223,9 +1223,14 @@ function Run_Super(code)
 
             " THIS IS THE FINAL ONE IG
             " ACTUALLY JUST NEEDED TO PREPEND a \ in the command at line 1209
-            : silent ! { ./a.out < input.txt > output.txt 2>&1 & export pid=$\! && sleep 0.3s && echo "pid=$pid" && { [[ -z "$pid" ]] || { kill $pid && echo "Killed Process" >> output.txt ; } ; } ; } 2>> output.txt 
-
-
+            " Supressing kill's output
+            : silent ! { ./a.out < input.txt > output.txt 2>&1 & export pid=$\!
+                        \ && sleep 0.3s
+                        \ && printf "\n\n" >> output.txt
+                        \ && kill $pid 2> /dev/null 
+                        \ && printf "<<<KILLED $pid>>>\n" >> output.txt
+                        \ || printf "<<<EXITED $pid>>>\n" >> output.txt
+                        \ ; } 2>> output.txt
 
         elseif a:code == 95
             "IP OP Run 2sec
@@ -1237,7 +1242,14 @@ function Run_Super(code)
              ":silent ! /usr/bin/time -av -o output.txt ./a.out 1 < input.txt > output.txt 2>&1 & sleep 2s && kill $(jobs -p)
              "------------------------------------------------
              " See a:code==90 if block to see how this command came
-            : silent ! { ./a.out 1 < input.txt > output.txt 2>&1 & export pid=$\! && sleep 1.3s && echo "pid=$pid" && { [[ -z "$pid" ]] || { kill $pid && echo "Killed Process" >> output.txt ; } ; } ; } 2>> output.txt 
+            : silent ! { ./a.out 1 < input.txt > output.txt 2&1 & export pid=$\!
+                        \ && sleep 1.5s
+                        \ && printf "\n\n" >> output.txt
+                        \ && kill $pid 2> /dev/null 
+                        \ && printf "<<<KILLED $pid>>>\n" >> output.txt
+                        \ || printf "<<<EXITED $pid>>>\n" >> output.txt
+                        \ ; } 2>> output.txt
+
 
         endif
 
