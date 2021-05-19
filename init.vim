@@ -92,7 +92,7 @@ call plug#begin('~/.config/nvim/plugged')
 
     "For python
     "Plug 'deoplete-plugins/deoplete-jedi'
-    "For c++
+    "For c++ autocomplete
     Plug 'Shougo/deoplete-clangx'
     "For JavaScript
     "Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
@@ -368,6 +368,9 @@ let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 ""validator was preinstalled in my laptop
 let g:syntastic_html_checkers = ['validator']
+"let g:syntastic_debug = 1
+let g:syntastic_cpp_config_file = "syntastic_cpp_gcc_config_file"
+
 
 ""Install NodeJS, npm and then ESlint globally. Then do
 "    "eslint --init to start
@@ -1242,7 +1245,8 @@ function Run_Super(code)
              ":silent ! /usr/bin/time -av -o output.txt ./a.out 1 < input.txt > output.txt 2>&1 & sleep 2s && kill $(jobs -p)
              "------------------------------------------------
              " See a:code==90 if block to see how this command came
-            : silent ! { ./a.out 1 < input.txt > output.txt 2&1 & export pid=$\!
+
+            : silent ! { ./a.out 1 < input.txt > output.txt 2>&1 & export pid=$\!
                         \ && sleep 1.5s
                         \ && printf "\n\n" >> output.txt
                         \ && kill $pid 2> /dev/null 
