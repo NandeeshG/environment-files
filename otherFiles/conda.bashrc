@@ -145,3 +145,9 @@ alias gtinit='cd ~/.config/nvim/'
 alias gtnvim='cd ~/.config/nvim/'
 alias gthome='cd ~/'
 
+#Not in sync with .bashrc.....
+
+
+
+
+

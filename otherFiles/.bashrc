@@ -126,12 +126,13 @@ export EDITOR=nvim
 alias gtcp='cd ~/Documents/cp'
 alias gtwork='cd ~/Documents/cp/workFolder'
 alias gtwd='cd ~/Documents/wd'
-alias gtclg='cd ~/Documents/college/5thSem'
+alias gtclg='cd ~/Documents/college/6thSem'
 alias gtenv='cd ~/Documents/environment_setup_files'
 alias gtpers='cd ~/Documents/personal'
 alias gtinit='cd ~/.config/nvim/'
 alias gtnvim='cd ~/.config/nvim/'
 alias gthome='cd ~/'
+alias gtunac='cd ~/Documents/unacademy'
 
 # remove later
 alias gtnode='cd ~/Documents/learn/node'
@@ -140,13 +141,33 @@ alias gtvue='cd ~/Documents/learn/vue'
 # ------------
 
 # for vm
-alias myVM='ssh -i ~/Documents/azureVM/myVM-kp.pem azureuser@codang.eastus.cloudapp.azure.com'
+alias myVM='ssh -i ~/Documents/azureVM/myVM-kp.pem azureuser@codangapi.eastus.cloudapp.azure.com'
+alias gcpVM='ssh -i ~/.ssh/id_ed25519 nandeeshgupta@35.196.42.192'
 # ------------
 # for psql
 alias PSQL='sudo -u postgres psql'
 # ------------
+# for Nxtive
+alias gtnxt='cd ~/Documents/Nxtive/'
+# ------------
+s10() {
+    #make sure phone and computer are connected to the same internet
+    #when not working, connect phone by USB, after it appears in files and folders like a ubs, run in terminal - adb tcpip 5555. Then disconnect phone from usb and run this function
+    adb connect $1 && scrcpy -b2M -m800 --window-title 'S10' --window-x 67 --window-y 0 -Sw --shortcut-mod 'lalt' --always-on-top
+}
+# -----------
+alias openboard='flatpak run ch.openboard.OpenBoard'
+#install openboard by running flatpak install flathub ch.openboard.OpenBoard 
+#see on flatpak website for more info
 
+# DO NOT UN COMMENT THIS ---!!!
+# good command - sudo du -h --summarize * | sort -h
+# --------------------------!!!
 
 #WHENEVER YOU MAKE A CHANGE HERE, ALSO UPDATE THAT IN CONDA.BASHRC
 
 # set +x
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
