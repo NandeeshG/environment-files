@@ -1,4 +1,13 @@
--Wall
 -Wextra
+-Wall
+-Wfloat-equal
+-Wundef
+-Wshadow
+-Wpointer-arith
+-Wcast-align
+-Wstrict-prototypes
 -pedantic-errors
 -std=c++17
+
+
+
