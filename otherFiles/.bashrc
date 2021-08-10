@@ -157,6 +157,7 @@ s10() {
 }
 # -----------
 alias openboard='flatpak run ch.openboard.OpenBoard'
+alias xsetRotate='xsetwacom --set "HID 256c:006d stylus" Rotate half'
 #install openboard by running flatpak install flathub ch.openboard.OpenBoard 
 #see on flatpak website for more info
 
