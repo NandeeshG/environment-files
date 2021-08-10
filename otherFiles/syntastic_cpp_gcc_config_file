@@ -1,5 +1,6 @@
 -Wextra
 -Wall
+-Wparenthesis
 -Wfloat-equal
 -Wundef
 -Wshadow
