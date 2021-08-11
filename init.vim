@@ -2,6 +2,8 @@
 " Need python3 in path. pynvim installed via pip. Powerline fonts installed
 " and selected in terminal. nodeJs optional. Use :checkhealth in nvim. Use
 " :help provider-python if python giving issues
+"
+" Need to install using apt -> clang-format-9
 
 
 "TODO : Try language servers please
@@ -1396,7 +1398,8 @@ noremap <F4>  :call Run_Super(40)<CR>
 "ctrl<F4> to save and open with text editor
 noremap <F28> :call Run_Super(45)<CR>
 noremap <F5>  :call Run_Super(50)<CR>
-noremap <F29> :call Run_Super(55)<CR>
+"ctrl <F5> is used for clang formatting. See after line 1415
+"noremap <F29> :call Run_Super(55)<CR>
 noremap <F6>  :call Run_Super(60)<CR>
 noremap <F30> :call Run_Super(65)<CR>
 "<F7> for build or some other function that runs with error window open
@@ -1409,3 +1412,19 @@ noremap <F9>  :call Run_Super(90)<CR>
 "ctrl<F9> will be secondary run option, like print debug and longer
 "time limits  (live-server for WebD)
 noremap <F33> :call Run_Super(95)<CR>
+
+
+" Need to install using apt -> clang-format-9
+" Check file locations by dpkg -L clang-format-9
+" Generate style file by clang-format-9 -style=webkit -dump-config >
+" .clang-format
+" CLANG FORMAT LOC 
+" /usr/share/vim/addons/syntax/clang-format-9.py
+map <F29> :1,$pyf /usr/share/clang/clang-format-9/clang-format.py<cr>
+imap <F29> <c-o>:1,$pyf /usr/share/clang/clang-format-9/clang-format.py<cr>
+
+function! Formatonsave()
+  let l:formatdiff = 1
+  pyf /usr/share/clang/clang-format-9/clang-format.py
+endfunction
+autocmd BufWritePre *.h,*.cc,*.cpp,*.java,*.js,*.c call Formatonsave()
