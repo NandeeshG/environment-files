@@ -826,6 +826,12 @@ let g:rainbow_active = 1 "set to 0 if you want to enable it later via :RainbowTo
 "Ctrl F6 -> Run soln.cpp and brute.cpp on input.txt, and then checker finds the difference and puts in result.txt   (basically, do not run input generator. )
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+function Template_Sql()
+    :0  "Not deleting anything in this command to avoid accidental deletion
+    :r ~/Documents/cp/nglib/TEMPLATE.sql
+    :exe "normal ggddG"
+endfunction
+
 function Template_Bare()
     :0  "Not deleting anything in this command to avoid accidental deletion
     :r ~/Documents/cp/nglib/TEMPLATE_BARE.cpp
@@ -1154,6 +1160,39 @@ function Run_Super(code)
         endif
         "------------------------------------------------
         
+    elseif l:ext==#"sql"
+        if a:code == 40
+            :0
+            :execute "normal dGdd"
+            :call Template_Sql()
+
+        elseif a:code == 45
+            "Open with text editor
+            :execute "! xdg-open" l:filename
+            :call feedkeys("<CR>")
+
+        elseif a:code == 80
+            "Run only output quick execution
+            :wincmd t
+            :execute "! psql -f" l:filename
+
+        elseif a:code == 85
+            "Run with Split terminal
+            "SplitTerminal on same screen
+            :wincmd t
+            :belowright split | terminal
+            :call jobsend(b:terminal_job_id, "psql -f ".l:filename."\n")
+            :call feedkeys("a")
+
+        elseif a:code == 90
+            "IP OP Run
+            :call Run_Super_OpenIO()
+            :execute "silent ! psql -f ".l:filename." > output.txt"
+
+        endif
+
+        "------------------------------------------------
+
     elseif l:ext==#"cpp"
         if a:code == 40
             "Pull template
