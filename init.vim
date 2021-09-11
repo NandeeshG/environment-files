@@ -1466,4 +1466,9 @@ function! Formatonsave()
   let l:formatdiff = 1
   pyf /usr/share/clang/clang-format-9/clang-format.py
 endfunction
-autocmd BufWritePre *.h,*.cc,*.cpp,*.java,*.js,*.c call Formatonsave()
+
+function! FormatInbuilt()
+    :exe "normal vggG$="
+endfunction
+
+autocmd BufWritePre *.h,*.cc,*.cpp,*.java,*.js,*.c,*.html,*.css,*.hbs,*.vue call FormatInbuilt()
