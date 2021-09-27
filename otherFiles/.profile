@@ -30,4 +30,5 @@ export GPG_TTY=$(tty)
 
 #MY OWN ADDITIONS --->
 export EDITOR=nvim
+export PATH=$PATH:/usr/local/go/bin 
 
