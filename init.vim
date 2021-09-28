@@ -1193,6 +1193,32 @@ function Run_Super(code)
 
         "------------------------------------------------
 
+    elseif l:ext==#"go"
+        if a:code == 45
+            "Open with text editor
+            :execute "! xdg-open" l:filename
+            :call feedkeys("<CR>")
+        elseif a:code == 70
+            "Only compile 
+        elseif a:code == 75
+            "Debugger in newTab
+        elseif a:code == 80
+            "Run only output quick execution
+            :wincmd t
+            :execute "! go run " l:filename
+        elseif a:code == 85
+            "Run with Split terminal
+            "SplitTerminal on same screen
+            :wincmd t
+            :belowright split | terminal
+            :call jobsend(b:terminal_job_id, "go run ".l:filename."\n")
+            :call feedkeys("a")
+
+        elseif a:code == 90
+            :call Run_Super_OpenIO()
+            :execute "silent ! go run ".l:filename." < input.txt > output.txt"
+        endif
+
     elseif l:ext==#"cpp"
         if a:code == 40
             "Pull template
