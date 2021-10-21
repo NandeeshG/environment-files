@@ -1,0 +1,54 @@
+#Host codang.eastus.cloudapp.azure.com
+#  HostName codang.eastus.cloudapp.azure.com
+#  IdentityFile ~/Documents/azureVM/myVM-kp.pem
+#  User azureuser
+
+# Default github account: NandeeshG
+Host github.com
+   HostName github.com
+   IdentityFile ~/.ssh/id_ed25519
+   IdentitiesOnly yes
+   ForwardAgent no
+   
+# Other github account: nandeesh-nference
+Host github-nandeesh-nference
+   HostName github.com
+   IdentityFile ~/.ssh/id_rsa_nfer
+   IdentitiesOnly yes
+   ForwardAgent yes
+
+# Manually added, maybe VS Code picks this up (yes it does)
+
+Host portForward-nandeesh-nference
+  IdentityFile /home/nandeesh/.ssh/nfernce-cloud
+  HostName hz-nandeeshg01.nferx.com
+  ForwardAgent yes
+  User nandeesh.g
+  LocalForward 8886 localhost:8888
+
+# Use 'lsof -i :8886' to find PIDS of running processes
+# kill by 'kill PID'
+# or 'kill $(lsof -t -i :8886)'
+# or 'kill -9 PID'
+# or 'kill -9 ${lsof -t -i :8886)'
+
+Host server-nandeesh-nference
+  IdentityFile /home/nandeesh/.ssh/nfernce-cloud
+  HostName hz-nandeeshg01.nferx.com
+  ForwardAgent yes
+  User nandeesh.g
+
+Host log-server-nference
+  IdentityFile /home/nandeesh/.ssh/nfernce-cloud
+  HostName logs.servers.nferx.com
+  ForwardAgent yes
+  User nandeesh.g
+
+#Auto added by nfercloud.sh
+Host *.nferxops.net
+IdentityFile /home/nandeesh/.ssh/nfernce-cloud
+
+#Auto added by nfercloud.sh
+Host *.nferx.com
+IdentityFile /home/nandeesh/.ssh/nfernce-cloud
+
