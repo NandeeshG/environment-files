@@ -6,7 +6,8 @@
 # Default github account: NandeeshG
 Host github.com
    HostName github.com
-   IdentityFile ~/.ssh/id_ed25519
+   #IdentityFile ~/.ssh/id_ed25519
+   IdentityFile ~/.ssh/backup/id_ed25519
    IdentitiesOnly yes
    ForwardAgent no
    
@@ -17,14 +18,21 @@ Host github-nandeesh-nference
    IdentitiesOnly yes
    ForwardAgent yes
 
+#also run command on the server
+#git config --global url."git@github.com:".insteadOf "https://github.com/"
+
 # Manually added, maybe VS Code picks this up (yes it does)
 
-Host portForward-nandeesh-nference
-  IdentityFile /home/nandeesh/.ssh/nfernce-cloud
-  HostName hz-nandeeshg01.nferx.com
-  ForwardAgent yes
-  User nandeesh.g
-  LocalForward 8886 localhost:8888
+#Host portForward-nandeesh-nference
+#  IdentityFile /home/nandeesh/.ssh/nfernce-cloud
+#  HostName hz-nandeeshg01.nferx.com
+#  ForwardAgent yes
+#  User nandeesh.g
+#  LocalForward 8886 localhost:8888
+
+# Example for Port forwarding
+# ssh -v -L 15671:localhost:15672 nandeesh.g@hz-nandeeshg01.nferx.com
+
 
 # Use 'lsof -i :8886' to find PIDS of running processes
 # kill by 'kill PID'
@@ -32,17 +40,31 @@ Host portForward-nandeesh-nference
 # or 'kill -9 PID'
 # or 'kill -9 ${lsof -t -i :8886)'
 
+#also run command on the server
+#git config --global url."git@github.com:".insteadOf "https://github.com/"
+
+
 Host server-nandeesh-nference
   IdentityFile /home/nandeesh/.ssh/nfernce-cloud
   HostName hz-nandeeshg01.nferx.com
   ForwardAgent yes
   User nandeesh.g
+  IdentitiesOnly yes
 
 Host log-server-nference
   IdentityFile /home/nandeesh/.ssh/nfernce-cloud
   HostName logs.servers.nferx.com
   ForwardAgent yes
   User nandeesh.g
+  IdentitiesOnly yes
+
+Host jump-server-nference
+  IdentityFile /home/nandeesh/.ssh/nfernce-cloud
+  HostName jump.nferxops.net
+  ForwardAgent yes
+  User nandeesh.g
+  IdentitiesOnly yes
+
 
 #Auto added by nfercloud.sh
 Host *.nferxops.net
