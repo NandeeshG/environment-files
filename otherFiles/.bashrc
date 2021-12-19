@@ -176,3 +176,4 @@ export NVM_DIR="$HOME/.nvm"
 export PATH=$PATH:/usr/local/go/bin 
 export PATH=$PATH:/home/nandeesh/go/bin 
 alias netSpeedCheck='curl -s https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py | python -'
+export CPLUS_INCLUDE_PATH=/home/nandeesh/Documents/ac-library

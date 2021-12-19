@@ -9,6 +9,7 @@
 -Wstrict-prototypes
 -pedantic-errors
 -std=c++17
+-I/home/nandeesh/Documents/ac-library
 
 
 
