@@ -3,7 +3,7 @@
 ### my setup file for CP, specially suited for competitive programming and languages - C++,python,java,javascript,C
 
 #### Add the file to ~/.config/nvim/ folder
-#### Prereqs for neovim - git, python3, python2, gcc/clang, nodejs, pip-(neovim,pynvim), npm-(neovim), fonts, vimPlug
+#### Prereqs for neovim - git, python3, python2, gcc/clang, nodejs, pip-(neovim,pynvim), npm-(neovim), fonts, vimPlug(https://github.com/junegunn/vim-plug)
 You can run :checkhealth from inside nvim to see if everything's okay.
 
 #### Steps
