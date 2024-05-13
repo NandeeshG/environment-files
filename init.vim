@@ -439,19 +439,13 @@ augroup END
 "will use a mix of tabs and spaces, but typing <Tab> and <BS> will
 "behave like a tab appears every 4 (or 3) characters.
 set tabstop=8   "number of visual spaces per tab
-set softtabstop=2   "no of spaces in tab when editing
-set shiftwidth=2
-set expandtab
+set softtabstop=4   "no of spaces in tab when editing
+set shiftwidth=4
+set noexpandtab
 
 """"GRAPHICAL
-set number 
-"Toggle relativenumber only in the window in which you are focussed!
-augroup numbertoggle
-  autocmd!
-  autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &nu && mode() != "i" | set rnu   | endif
-  autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * if &nu                  | set nornu | endif
-augroup END
-
+"set listchars=eol:¬,tab:>·,trail:~,extends:>,precedes:<,space:␣
+set number
 set showcmd
 set noequalalways "This doesn't change window size automatically when opening or closing windows
 set cursorline
@@ -493,8 +487,8 @@ set foldmethod=indent   " fold based on indent level
 
 "MOVEMENT
 " move vertically by visual line
-"noremap j gj
-"noremap k gk
+noremap j gj
+noremap k gk
 
 "Tried to achieve the following line's effect, but instead had to turn off
 "curly bracket highlighting
@@ -1079,17 +1073,21 @@ function Run_Super(code)
     "code 95 - ctrl<F9>
 
     if expand('%:e')==#"txt" && a:code!=45
+	" This moves the cursos to the top left window.
+	" Do this if we invoke any F key on .txt files (Except for ctrl-f4)
         :wincmd t
     endif 
+
+    " Save all files in all windows first
     :wa
 
-    "Syntastic error window open
-    "This variable is made by me, check SyntasticCheckHook() function in above
-    "code somewhere
-    "If special case <F4> pressed then don't exit
-    if g:bool_errors_found==1 && a:code!=40  && a:code!=70
-        return
-    endif
+    " "Syntastic error window open
+    " "This variable is made by me, check SyntasticCheckHook() function in above
+    " "code somewhere
+    " "If special case <F4> pressed then don't exit
+    " if g:bool_errors_found==1 && a:code!=40 && a:code!=70
+    "     return
+    " endif
 
     let l:ext = expand('%:e')
     let l:filename = expand('%')
@@ -1103,6 +1101,7 @@ function Run_Super(code)
             :call feedkeys("<CR>")
         endif
 
+    "------------------------------------------------
     elseif l:ext==#"js"
         if a:code == 40
             :0
@@ -1134,8 +1133,8 @@ function Run_Super(code)
             :$tabnew | terminal
             :call jobsend(b:terminal_job_id, "live-server\n")
         endif
-        "------------------------------------------------
 
+    "------------------------------------------------
     elseif l:ext==#"html"
         if a:code == 40
             :0
@@ -1151,8 +1150,8 @@ function Run_Super(code)
             :$tabnew | terminal
             :call jobsend(b:terminal_job_id, "live-server\n")
         endif
-        "------------------------------------------------
 
+    "------------------------------------------------
     elseif l:ext==#"css"
         if a:code == 40
             :0
@@ -1165,8 +1164,8 @@ function Run_Super(code)
             :$tabnew | terminal
             :call jobsend(b:terminal_job_id, "live-server\n")
         endif
-        "------------------------------------------------
-        
+
+    "------------------------------------------------
     elseif l:ext==#"sql"
         if a:code == 40
             :0
@@ -1198,8 +1197,7 @@ function Run_Super(code)
 
         endif
 
-        "------------------------------------------------
-
+    "------------------------------------------------
     elseif l:ext==#"go"
         if a:code == 45
             "Open with text editor
@@ -1226,6 +1224,7 @@ function Run_Super(code)
             :execute "silent ! go run ".l:filename." < input.txt > output.txt"
         endif
 
+    "------------------------------------------------
     elseif l:ext==#"cpp"
         if a:code == 40
             "Pull template
@@ -1350,6 +1349,7 @@ function Run_Super(code)
 
         endif
 
+    "------------------------------------------------
     elseif l:ext==#"c"
         "Match this with cpp later !!
         if a:code == 45
@@ -1388,8 +1388,7 @@ function Run_Super(code)
             :silent ! ./a.out < input.txt > output.txt & sleep 2s && kill $(jobs -p)
         endif
 
-        "------------------------------------------------
-
+    "------------------------------------------------
     elseif l:ext==#"py"
         if a:code == 40
             "Pull template
@@ -1427,8 +1426,7 @@ function Run_Super(code)
             :execute "silent ! python3" l:filename "< input.txt > output.txt"
         endif
 
-        "------------------------------------------------
-
+    "------------------------------------------------
     elseif l:ext==#"java"
         if a:code == 40
             "Pull template
@@ -1461,7 +1459,6 @@ function Run_Super(code)
             :execute "silent ! javac " l:filename
             :execute "silent ! java " l:onlyname "< input.txt > output.txt"
         endif
-        "------------------------------------------------
     endif
 endfunction
 
@@ -1501,7 +1498,7 @@ function! Formatonsave()
 endfunction
 
 function! FormatInbuilt()
-    :exe "normal vggG$="
+    ":exe "normal vggG$="
 endfunction
 
 autocmd BufWritePre *.h,*.cc,*.cpp,*.java,*.js,*.c,*.html,*.css,*.hbs,*.vue call FormatInbuilt()
