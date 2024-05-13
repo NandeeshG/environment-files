@@ -444,7 +444,14 @@ set shiftwidth=2
 set expandtab
 
 """"GRAPHICAL
-set number
+set number 
+"Toggle relativenumber only in the window in which you are focussed!
+augroup numbertoggle
+  autocmd!
+  autocmd BufEnter,FocusGained,InsertLeave,WinEnter * if &nu && mode() != "i" | set rnu   | endif
+  autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * if &nu                  | set nornu | endif
+augroup END
+
 set showcmd
 set noequalalways "This doesn't change window size automatically when opening or closing windows
 set cursorline
